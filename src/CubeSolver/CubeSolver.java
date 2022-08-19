@@ -16,7 +16,7 @@ public class CubeSolver {
         System.out.println("Please enter the scramble: ");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String a = reader.readLine();
-        cube.performMoves(a, false);
+        cube.performMoves(a, false, null);
         cube.solveCross();
 
     }

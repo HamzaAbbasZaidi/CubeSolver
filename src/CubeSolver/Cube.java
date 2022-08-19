@@ -2,6 +2,9 @@ package CubeSolver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Cube {
 
@@ -22,17 +25,101 @@ public class Cube {
 
     public void solveCross() {
         System.out.println("Cross: ");
-        performMoves(CrossEdgeSolutions.edge1[allEdgeStickers.indexOf(this.edges[10])], true);
-        performMoves(CrossEdgeSolutions.edge2[allEdgeStickers.indexOf(this.edges[11])], true);
-        performMoves(CrossEdgeSolutions.edge3[allEdgeStickers.indexOf(this.edges[9])], true);
-        performMoves(CrossEdgeSolutions.edge4[allEdgeStickers.indexOf(this.edges[8])], true);
+
+        Cube copy = new Cube(this.edges.clone(),this.corners.clone());
+
+        StringBuilder sbwxvu = new StringBuilder();
+
+        copy.performMoves(CrossEdgeSolutions.edge1wxvu[allEdgeStickers.indexOf(copy.edges[10])], true, sbwxvu);
+        copy.performMoves(CrossEdgeSolutions.edge2wxvu[allEdgeStickers.indexOf(copy.edges[11])], true, sbwxvu);
+        copy.performMoves(CrossEdgeSolutions.edge3wxvu[allEdgeStickers.indexOf(copy.edges[9])], true, sbwxvu);
+        copy.performMoves(CrossEdgeSolutions.edge4wxvu[allEdgeStickers.indexOf(copy.edges[8])], true, sbwxvu);
+
+        String[] moves = sbwxvu.toString().split(" ");
+        List<String> newMoves = Arrays.asList(moves);
+        System.out.println(Arrays.toString(moves));
+        List<String> newMovesSimplified = cancel(newMoves);
+        System.out.println(newMovesSimplified);
     }
 
-    public void performMoves(String s, boolean print) {
+    private List<String> cancel(List<String> sb) {
+        while(isNotSimplified(sb) && sb.size() >= 1) {
+            sb = makeFirstSimplificationPossible(sb);
+        }
+        return sb;
+    }
+
+    private boolean isNotSimplified(List<String> sb) {
+        for(int i = 0; i < sb.size() - 1; i++) {
+            if(sb.get(i).charAt(0) == sb.get(i + 1).charAt(0)) return true;
+        }
+        return false;
+    }
+
+    private List<String> makeFirstSimplificationPossible(List<String> sb) {
+
+        List<String> filtered = null;
+
+        for(int i = 0; i < sb.size() - 1; i++) {
+            if(sb.get(i).charAt(0) == sb.get(i + 1).charAt(0)) {
+
+                // int finalI = i;
+                // String[] finalSb = sb;
+
+                int rotation = 0;
+                if(sb.get(i).length() == 1) {
+                    rotation += 1;
+                }
+                else if(sb.get(i).charAt(1) == '2') {
+                    rotation += 2;
+                }
+                else {
+                    rotation -= 1;
+                }
+                if(sb.get(i + 1).length() == 1) {
+                    rotation += 1;
+                }
+                else if(sb.get(i + 1).charAt(1) == '2') {
+                    rotation += 2;
+                }
+                else {
+                    rotation -= 1;
+                }
+
+                switch(rotation) {
+                    case 0:
+                    case 4:
+                        sb.set(i, "");
+                        sb.set(i + 1, "");
+                        break;
+                    case 1:
+                        sb.set(i, Character.toString(sb.get(i).charAt(0)));
+                        sb.set(i + 1, "");
+                        break;
+                    case -2:
+                    case 2:
+                        sb.set(i, Character.toString(sb.get(i).charAt(0)).concat("2"));
+                        sb.set(i + 1, "");
+                        break;
+                    case -1:
+                    case 3:
+                        sb.set(i, Character.toString(sb.get(i).charAt(0)).concat("'"));
+                        sb.set(i + 1, "");
+                        break;
+                    default:
+                }
+                filtered = sb.stream().filter(k -> k != "").collect(Collectors.toList());
+            break;
+            }
+        }
+        return filtered;
+    }
+
+    public void performMoves(String s, boolean print, StringBuilder sb) {
 
         String[] moves = s.split(" ");
 
-        if(print) System.out.print(s);
+        if(print) sb.append(s);
 
         for(String m : moves) {
             makeMove(m,this);
