@@ -2,7 +2,6 @@ package CubeSolver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,36 +11,63 @@ public class Cube {
     public String[] corners;
 
     public static final ArrayList<String> allEdgeStickers = new ArrayList<>(Arrays.asList("UB", "UR", "UF", "UL", "LU", "LF", "LD", "LB", "FU", "FR", "FD", "FL", "RU", "RB", "RD", "RF", "BU", "BL", "BD", "BR", "DF", "DR", "DB", "DL"));
-
+    public static final ArrayList<String> wxvuTries = new ArrayList<>(Arrays.asList("wxvu","Wxvu","wXvu","WXvu","wxVu","WxVu","wXVu","WXVu","wxvU","WxvU","wXvU","WXvU","wxVU","WxVU","wXVU","WXVU"));
     public Cube() {
+
         this.edges = new String[] {"UB","UR","UF","UL","FR","FL","BL","BR","DF","DR","DB","DL"};
         this.corners = new String[] {"UBL", "UBR", "UFR", "UFL", "DFL", "DFR", "DBR", "DBL"};
+
     }
 
     public Cube(String[] edges, String[] corners) {
+
         this.edges = edges;
         this.corners = corners;
+
     }
 
     public void solveCross() {
+
         System.out.println("Cross: ");
 
-        Cube copy = new Cube(this.edges.clone(),this.corners.clone());
+        StringBuilder finalCrossSolution = new StringBuilder();
+        int length = 20;
 
-        StringBuilder sbwxvu = new StringBuilder();
+        for(int i = 0; i < 16; i++) {
 
-        copy.performMoves(CrossEdgeSolutions.edge1wxvu[allEdgeStickers.indexOf(copy.edges[10])], true, sbwxvu);
-        copy.performMoves(CrossEdgeSolutions.edge2wxvu[allEdgeStickers.indexOf(copy.edges[11])], true, sbwxvu);
-        copy.performMoves(CrossEdgeSolutions.edge3wxvu[allEdgeStickers.indexOf(copy.edges[9])], true, sbwxvu);
-        copy.performMoves(CrossEdgeSolutions.edge4wxvu[allEdgeStickers.indexOf(copy.edges[8])], true, sbwxvu);
+            StringBuilder solutionBuilder = new StringBuilder();
+            Cube cubeCopy = new Cube(this.edges.clone(),this.corners.clone());
 
-        String[] moves = sbwxvu.toString().split(" ");
-        List<String> newMoves = Arrays.asList(moves);
-        System.out.println(Arrays.toString(moves));
-        List<String> newMovesSimplified = cancel(newMoves);
-        System.out.println(newMovesSimplified);
+            for(int j = 0; j < 4; j++) {
+                switch (wxvuTries.get(i).charAt(j)) {
+
+                    case 'w' -> cubeCopy.performMoves(CrossSolutions.edge1w1[allEdgeStickers.indexOf(cubeCopy.edges[10])], true, solutionBuilder);
+                    case 'W' -> cubeCopy.performMoves(CrossSolutions.edge1w2[allEdgeStickers.indexOf(cubeCopy.edges[10])], true, solutionBuilder);
+                    case 'x' -> cubeCopy.performMoves(CrossSolutions.edge2xw1[allEdgeStickers.indexOf(cubeCopy.edges[11])], true, solutionBuilder);
+                    case 'X' -> cubeCopy.performMoves(CrossSolutions.edge2xw2[allEdgeStickers.indexOf(cubeCopy.edges[11])], true, solutionBuilder);
+                    case 'v' -> cubeCopy.performMoves(CrossSolutions.edge3vwx1[allEdgeStickers.indexOf(cubeCopy.edges[9])], true, solutionBuilder);
+                    case 'V' -> cubeCopy.performMoves(CrossSolutions.edge3vwx2[allEdgeStickers.indexOf(cubeCopy.edges[9])], true, solutionBuilder);
+                    case 'u' -> cubeCopy.performMoves(CrossSolutions.edge4uvwx1[allEdgeStickers.indexOf(cubeCopy.edges[8])], true, solutionBuilder);
+                    case 'U' -> cubeCopy.performMoves(CrossSolutions.edge4uvwx2[allEdgeStickers.indexOf(cubeCopy.edges[8])], true, solutionBuilder);
+
+                }
+            }
+
+            if(cancel(Arrays.asList(solutionBuilder.toString().split(" "))).size() < length) {
+
+                finalCrossSolution = new StringBuilder(solutionBuilder.toString());
+                length = cancel(Arrays.asList(solutionBuilder.toString().split(" "))).size();
+
+            }
+        }
+
+        printMoves(cancel(Arrays.asList(finalCrossSolution.toString().split(" "))));
+
     }
 
+    private void printMoves(List<String> listOfMoves) {
+        for(int i = 0; i < listOfMoves.size(); i++) System.out.print(listOfMoves.get(i).concat(" "));
+    }
     private List<String> cancel(List<String> sb) {
         while(isNotSimplified(sb) && sb.size() >= 1) {
             sb = makeFirstSimplificationPossible(sb);
@@ -62,9 +88,6 @@ public class Cube {
 
         for(int i = 0; i < sb.size() - 1; i++) {
             if(sb.get(i).charAt(0) == sb.get(i + 1).charAt(0)) {
-
-                // int finalI = i;
-                // String[] finalSb = sb;
 
                 int rotation = 0;
                 if(sb.get(i).length() == 1) {
@@ -101,7 +124,6 @@ public class Cube {
                         sb.set(i, Character.toString(sb.get(i).charAt(0)).concat("2"));
                         sb.set(i + 1, "");
                         break;
-                    case -1:
                     case 3:
                         sb.set(i, Character.toString(sb.get(i).charAt(0)).concat("'"));
                         sb.set(i + 1, "");
@@ -116,6 +138,8 @@ public class Cube {
     }
 
     public void performMoves(String s, boolean print, StringBuilder sb) {
+
+        if(s == "") return;
 
         String[] moves = s.split(" ");
 
@@ -240,3 +264,4 @@ public class Cube {
     }
 
 }
+
