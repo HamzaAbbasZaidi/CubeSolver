@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class MoveMaps {
 
+    // B' L' B2 U2 D B' U' R2 F R' U2 L U2 B2 L D2 R' F2 R U2
+
     public static Map<String,String> rMap = new HashMap<>();
     public static Map<String,String> rPrimeMap = new HashMap<>();
     public static Map<String,String> r2Map = new HashMap<>();
