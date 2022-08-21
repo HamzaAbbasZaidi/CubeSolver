@@ -13,7 +13,7 @@ public class CrossSolutions {
     public static String[] edge4uvwx2 = {"D2 B2 D2","D R2 D'","F2","D' L2 D","R U2 R' F","F'","","D2 B D2","L' U L F'","D R' D'","F' D R' D'","D' L D","L' U2 L F'","D2 B' D2","","F","L' U' L F'","D' L' D","","D R D'","","","",""};
 
     public static String[] edge3uwx1 = {"U2 F2 ","U F2 ","F2 ","U' F2 ","L F' L' ","F' ","","L2 F' L2 ","U' R' F ","D R' D' ","F' R U F2 ","D' L D ","R' F ","R2 F ","R F ","F ","U R' F ","D' L' D ","","R' U F2 ","","R2 U F2 ","",""};
-    public static String[] edge3uwx2 = {"D2 B2 D2 ","D R2 D' ","F2 ","D' L2 D ","U2 R' F ","F' ","","D2 B D2 ","U L F' L' ","R U F2 ","F D' L D ","D' L D ","R' F ","D2 B' D2","R F ","F ","L' U' L F' ","D' L' D ","","D R D' ","","R D R' D' ","",""};
+    public static String[] edge3uwx2 = {"D2 B2 D2 ","D R2 D' ","F2 ","D' L2 D ","U2 R' F ","F' ","","D2 B D2 ","U L F' L' ","R U F2 ","F D' L D ","D' L D ","R' F ","D2 B' D2 ","R F ","F ","L' U' L F' ","D' L' D ","","D R D' ","","R D R' D' ","",""};
     public static String[] edge4vuxw1 = {"U R2","R2","U' R2","U2 R2","F' U' F R'","D' F' D","","D B D'","F R' F'","R'","","F2 R' F2","F' U F R'","D B' D'","R D' F D","D' F D","B' R B","D2 L' D2","","R","","","",""};
     public static String[] edge4vuxw2 = {"D B2 D'","R2","D' F2 D","D2 L2 D2 ","B U B' R","D' F' D","","D B D'","B U2 B' R","R'","","D2 L D2","B U' B' R","D B' D'","R' D B' D'","D' F D ","F' U2 F R'","B2 R B2","","R","","","",""};
 
@@ -24,5 +24,9 @@ public class CrossSolutions {
 
     public static String[] edge4x1 = {"U' L2", "U2 L2", "U L2", "L2", "F U' F' L","D F' D'","L' D F' D'","D' B D","F' L F","D2 R' D2","","L","F U F' L","D' B' D","","D F D'","B L' B'","L'","","D2 R D2","","","",""};
     public static String[] edge4x2 = {"D' B2 D", "D2 R2 D2", "D F2 D'","L2","B' U B L'","F U F' L2","L D' B D","B' U' B L2","B' U2 B L'","F2 L F2","","L","B' U' B L'","B U' B' L2","","F' U F L2","F U2 F' L","L'","","B2 L' B2","","","",""};
+    public static String[] edge3xwv1 = {"U' L2 ","U2 L2 ","U L2 ","L2 ","U' F' L ","F U L2 ","L D' B D ","D' B D ","F' L ","F2 L ","F L ","L ","U F' L ","D' B' D ","","D F D' ","U2 F' L ","L' ","","D2 R D2 ","F2 U L2 ","","",""};
+    public static String[] edge3xwv2 = {"D' B2 D ","D2 R2 D2 ","D F2 D' ","L2 ","U B L' B' ","D F' D' ","L' D F' D' ","B' U' B L2 ","U2 B L' B' ","D2 R' D2 ","F L ","L ","U' B L' B' ","D' B' D ","","F' U L2 ","B L' B' ","L' ","","B2 L' B2 ","F' D F D' ","","",""};
+
+    //wxvu,wxuv,wvux,wvxu
 
 }
