@@ -196,20 +196,16 @@ public class Cube {
     }
 
     private List<String> cancel(List<String> sb) {
-
         while(isNotSimplified(sb) && sb.size() >= 1) {
-
             sb = makeFirstSimplificationPossible(sb);
-
         }
-
         return sb;
-
     }
 
     private boolean isNotSimplified(List<String> sb) {
         for(int i = 0; i < sb.size() - 1; i++) {
-            if(sb.get(i).charAt(0) == sb.get(i + 1).charAt(0)) return true;
+            if(sb.get(i).charAt(0) == sb.get(i + 1).charAt(0))
+                return true;
         }
         return false;
     }
@@ -220,7 +216,6 @@ public class Cube {
 
         for(int i = 0; i < sb.size() - 1; i++) {
             if(sb.get(i).charAt(0) == sb.get(i + 1).charAt(0)) {
-
                 int rotation = 0;
                 if(sb.get(i).length() == 1) {
                     rotation += 1;
@@ -231,6 +226,7 @@ public class Cube {
                 else {
                     rotation -= 1;
                 }
+                
                 if(sb.get(i + 1).length() == 1) {
                     rotation += 1;
                 }
@@ -242,25 +238,12 @@ public class Cube {
                 }
 
                 switch (rotation) {
-                    case 0, 4 -> {
-                        sb.set(i, "");
-                        sb.set(i + 1, "");
-                    }
-                    case 1 -> {
-                        sb.set(i, Character.toString(sb.get(i).charAt(0)));
-                        sb.set(i + 1, "");
-                    }
-                    case -2, 2 -> {
-                        sb.set(i, Character.toString(sb.get(i).charAt(0)).concat("2"));
-                        sb.set(i + 1, "");
-                    }
-                    case 3 -> {
-                        sb.set(i, Character.toString(sb.get(i).charAt(0)).concat("'"));
-                        sb.set(i + 1, "");
-                    }
-                    default -> {
-                    }
+                    case 0, 4  -> sb.set(i, "");
+                    case 1     -> sb.set(i, Character.toString(sb.get(i).charAt(0)));
+                    case -2, 2 -> sb.set(i, Character.toString(sb.get(i).charAt(0)).concat("2"));
+                    case 3     -> sb.set(i, Character.toString(sb.get(i).charAt(0)).concat("'"));
                 }
+                sb.set(i+1, "");
                 filtered = sb.stream().filter(k -> k != "").collect(Collectors.toList());
             break;
             }
