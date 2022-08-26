@@ -11,18 +11,30 @@ public class Cube {
     public String[] corners;
 
     public static final ArrayList<String> allEdgeStickers = new ArrayList<>(Arrays.asList("UB", "UR", "UF", "UL", "LU", "LF", "LD", "LB", "FU", "FR", "FD", "FL", "RU", "RB", "RD", "RF", "BU", "BL", "BD", "BR", "DF", "DR", "DB", "DL"));
+    public static ArrayList<String> allF2Lcases = new ArrayList<>();
+    public static final ArrayList<String> allCornerStickers = new ArrayList<>(Arrays.asList("UBL","UBR","UFR","UFL","LUB","LUF","LDF","LDB","FUL","FUR","FDR","FDL","RUF","RUB","RDB","RDF","BUR","BUL","BDL","BDR","DFL","DFR","DBR","DBL"));
+    public static final ArrayList<String> allNonCrossEdges = new ArrayList<>(Arrays.asList("UB","UR","UF","UL","LU","LF","LB","FU","FR","FL","RU","RB","RF","BU","BL","BR"));
     public static final ArrayList<String> allPossibleMoves = new ArrayList<>(Arrays.asList("R ","R' ","R2 ","U ","U' ","U2 ","F ","F' ","F2 ","L ","L' ","L2 ","B ","B' ","B2 ","D ","D' ","D2 "));
 
     public static final ArrayList<String> wxvuTries = new ArrayList<>(Arrays.asList("wxvu","Wxvu","wXvu","WXvu","wxVu","WxVu","wXVu","WXVu","wxvU","WxvU","wXvU","WXvU","wxVU","WxVU","wXVU","WXVU"));
     public static final ArrayList<String> wxuvTries = new ArrayList<>(Arrays.asList("wxuv","Wxuv","wXuv","WXuv","wxUv","WxUv","wXUv","WXUv","wxuV","WxuV","wXuV","WXuV","wxUV","WxUV","wXUV","WXUV"));
     public static final ArrayList<String> wvuxTries = new ArrayList<>(Arrays.asList("wvux","Wvux","wVux","WVux","wvUx","WvUx","wVUx","WVUx","wvuX","WvuX","wVuX","WVuX","wvUX","WvUX","wVUX","WVUX"));
     public static final ArrayList<String> wvxuTries = new ArrayList<>(Arrays.asList("wvxu","Wvxu","wVxu","WVxu","wvXu","WvXu","wVXu","WVXu","wvxU","WvxU","wVxU","WVxU","wvXU","WvXU","wVXU","WVXU"));
-
+    public static final ArrayList<String> vuxwTries = new ArrayList<>(Arrays.asList("yo","no"));
     public Cube() {
 
         this.edges = new String[] {"UB","UR","UF","UL","FR","FL","BL","BR","DF","DR","DB","DL"};
         this.corners = new String[] {"UBL", "UBR", "UFR", "UFL", "DFL", "DFR", "DBR", "DBL"};
 
+    }
+
+    static {
+
+        for(int i = 0; i < 24; i++) {
+            for(int j = 0; j < 16; j++) {
+                allF2Lcases.add(allCornerStickers.get(i) + allNonCrossEdges.get(j));
+            }
+        }
     }
 
     public Cube(String[] edges, String[] corners) {
@@ -67,11 +79,6 @@ public class Cube {
 
             }
 
-            /*
-             printMoves(Arrays.asList(solutionBuilder.toString().split(" ")));
-             printMoves(cancel(Arrays.asList(solutionBuilder.toString().split(" "))));
-            */
-
             cubeCopy = new Cube(this.edges.clone(),this.corners.clone());
             solutionBuilder = new StringBuilder();
 
@@ -98,11 +105,6 @@ public class Cube {
 
             }
 
-            /*
-             printMoves(Arrays.asList(solutionBuilder.toString().split(" ")));
-             printMoves(cancel(Arrays.asList(solutionBuilder.toString().split(" "))));
-            */
-
             cubeCopy = new Cube(this.edges.clone(),this.corners.clone());
             solutionBuilder = new StringBuilder();
 
@@ -127,11 +129,6 @@ public class Cube {
                 length = cancel(Arrays.asList(solutionBuilder.toString().split(" "))).size();
 
             }
-
-            /*
-             printMoves(Arrays.asList(solutionBuilder.toString().split(" ")));
-             printMoves(cancel(Arrays.asList(solutionBuilder.toString().split(" "))));
-            */
 
             cubeCopy = new Cube(this.edges.clone(),this.corners.clone());
             solutionBuilder = new StringBuilder();
@@ -158,15 +155,11 @@ public class Cube {
 
             }
 
-            /*
-             printMoves(Arrays.asList(solutionBuilder.toString().split(" ")));
-             printMoves(cancel(Arrays.asList(solutionBuilder.toString().split(" "))));
-            */
-
         }
 
-        // System.out.println("The shortest cross solution found is:"+'\n');
         printMoves(cancel(Arrays.asList(finalCrossSolution.toString().split(" "))));
+        performMoves(finalCrossSolution.toString(),false,null);
+
         return (cancel(Arrays.asList(finalCrossSolution.toString().split(" ")))).size();
     }
 
@@ -260,6 +253,21 @@ public class Cube {
         for(String m : moves) {
             makeMove(m,this);
         }
+
+    }
+
+    public void performF2LMoves(String usefulMoves, String movesToPrint, StringBuilder useful, StringBuilder toPrint) {
+
+        if(usefulMoves == "") return;
+
+        String[] moves = usefulMoves.split(" ");
+
+        for(String m : moves) {
+            makeMove(m,this);
+        }
+
+        toPrint.append(movesToPrint);
+        useful.append(usefulMoves);
 
     }
 
@@ -383,5 +391,42 @@ public class Cube {
 
     }
 
+    public int solveF2L() {
+
+        System.out.println("F2L: ");
+
+        StringBuilder finalF2LSolution = new StringBuilder();
+        StringBuilder finalF2LExecution = new StringBuilder();
+        int length = 100;
+
+        // for(int i = 0; i < 16; i++) {
+
+            StringBuilder f2LBuilder = new StringBuilder();
+            StringBuilder f2lExecution = new StringBuilder();
+            Cube cubeCopy = new Cube(this.edges.clone(),this.corners.clone());
+
+            // for(int j = 0; j < 4; j++) {
+
+                // switch (vuxwTries.get(i).charAt(j)) {
+
+                     System.out.println(cubeCopy.corners[5]);
+                     System.out.println(cubeCopy.edges[4]);
+                    /*  case 'v' -> */cubeCopy.performF2LMoves(F2LSolutions.pair1v1[allF2Lcases.indexOf(cubeCopy.corners[5] + cubeCopy.edges[4])], F2LSolutions.pair1v1print[allF2Lcases.indexOf(cubeCopy.corners[5] + cubeCopy.edges[4])], f2LBuilder, f2lExecution);
+                    /* case 'V' -> cubeCopy.performF2LMoves(F2LSolutions.edge1w2[allEdgeStickers.indexOf(cubeCopy.edges[10])], true, solutionBuilder);
+                    case 'u' -> cubeCopy.performF2LMoves(F2LSolutions.edge2vw1[allEdgeStickers.indexOf(cubeCopy.edges[9])], true, solutionBuilder);
+                    case 'U' -> cubeCopy.performF2LMoves(F2LSolutions.edge2vw2[allEdgeStickers.indexOf(cubeCopy.edges[9])], true, solutionBuilder);
+                    case 'x' -> cubeCopy.performF2LMoves(F2LSolutions.edge3uvw1[allEdgeStickers.indexOf(cubeCopy.edges[8])], true, solutionBuilder);
+                    case 'X' -> cubeCopy.performF2LMoves(F2LSolutions.edge3uvw2[allEdgeStickers.indexOf(cubeCopy.edges[8])], true, solutionBuilder);
+                    case 'w' -> cubeCopy.performF2LMoves(F2LSolutions.edge4x1[allEdgeStickers.indexOf(cubeCopy.edges[11])], true, solutionBuilder);
+                    case 'W' -> cubeCopy.performF2LMoves(F2LSolutions.edge4x2[allEdgeStickers.indexOf(cubeCopy.edges[11])], true, solutionBuilder); */
+
+                // }
+            // }
+        System.out.println(f2lExecution);
+        // System.out.println(f2LBuilder);
+        // }
+
+        return (cancel(Arrays.asList(f2lExecution.toString().split(" ")))).size();
+    }
 }
 

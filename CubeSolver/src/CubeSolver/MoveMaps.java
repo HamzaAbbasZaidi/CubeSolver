@@ -97,7 +97,7 @@ public class MoveMaps {
         uPrimeMap.put("UBL","UFL"); uPrimeMap.put("UBR","UBL"); uPrimeMap.put("UFR","UBR"); uPrimeMap.put("UFL","UFR");
         uPrimeMap.put("LUB","FUL"); uPrimeMap.put("LUF","FUR"); uPrimeMap.put("LDF","LDF"); uPrimeMap.put("LDB","LDB");
         uPrimeMap.put("FUL","RUF"); uPrimeMap.put("FUR","RUB"); uPrimeMap.put("FDR","FDR"); uPrimeMap.put("FDL","FDL");
-        uPrimeMap.put("RUF","BUR"); uPrimeMap.put("RUB","RUF"); uPrimeMap.put("RDB","RDB"); uPrimeMap.put("RDF","RDF");
+        uPrimeMap.put("RUF","BUR"); uPrimeMap.put("RUB","BUL"); uPrimeMap.put("RDB","RDB"); uPrimeMap.put("RDF","RDF");
         uPrimeMap.put("BUR","LUB"); uPrimeMap.put("BUL","LUF"); uPrimeMap.put("BDL","BDL"); uPrimeMap.put("BDR","BDR");
         uPrimeMap.put("DFL","DFL"); uPrimeMap.put("DFR","DFR"); uPrimeMap.put("DBR","DBR"); uPrimeMap.put("DBL","DBL");
 
