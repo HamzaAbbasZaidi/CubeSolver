@@ -7,26 +7,16 @@ import java.util.stream.Collectors;
 
 public class Cube {
 
-    public String[] edges;
-    public String[] corners;
-
     public static final ArrayList<String> allEdgeStickers = new ArrayList<>(Arrays.asList("UB", "UR", "UF", "UL", "LU", "LF", "LD", "LB", "FU", "FR", "FD", "FL", "RU", "RB", "RD", "RF", "BU", "BL", "BD", "BR", "DF", "DR", "DB", "DL"));
-    public static ArrayList<String> allF2Lcases = new ArrayList<>();
     public static final ArrayList<String> allCornerStickers = new ArrayList<>(Arrays.asList("UBL","UBR","UFR","UFL","LUB","LUF","LDF","LDB","FUL","FUR","FDR","FDL","RUF","RUB","RDB","RDF","BUR","BUL","BDL","BDR","DFL","DFR","DBR","DBL"));
     public static final ArrayList<String> allNonCrossEdges = new ArrayList<>(Arrays.asList("UB","UR","UF","UL","LU","LF","LB","FU","FR","FL","RU","RB","RF","BU","BL","BR"));
     public static final ArrayList<String> allPossibleMoves = new ArrayList<>(Arrays.asList("R ","R' ","R2 ","U ","U' ","U2 ","F ","F' ","F2 ","L ","L' ","L2 ","B ","B' ","B2 ","D ","D' ","D2 "));
-
     public static final ArrayList<String> wxvuTries = new ArrayList<>(Arrays.asList("wxvu","Wxvu","wXvu","WXvu","wxVu","WxVu","wXVu","WXVu","wxvU","WxvU","wXvU","WXvU","wxVU","WxVU","wXVU","WXVU"));
     public static final ArrayList<String> wxuvTries = new ArrayList<>(Arrays.asList("wxuv","Wxuv","wXuv","WXuv","wxUv","WxUv","wXUv","WXUv","wxuV","WxuV","wXuV","WXuV","wxUV","WxUV","wXUV","WXUV"));
     public static final ArrayList<String> wvuxTries = new ArrayList<>(Arrays.asList("wvux","Wvux","wVux","WVux","wvUx","WvUx","wVUx","WVUx","wvuX","WvuX","wVuX","WVuX","wvUX","WvUX","wVUX","WVUX"));
     public static final ArrayList<String> wvxuTries = new ArrayList<>(Arrays.asList("wvxu","Wvxu","wVxu","WVxu","wvXu","WvXu","wVXu","WVXu","wvxU","WvxU","wVxU","WVxU","wvXU","WvXU","wVXU","WVXU"));
     public static final ArrayList<String> vuxwTries = new ArrayList<>(Arrays.asList("yo","no"));
-    public Cube() {
-
-        this.edges = new String[] {"UB","UR","UF","UL","FR","FL","BL","BR","DF","DR","DB","DL"};
-        this.corners = new String[] {"UBL", "UBR", "UFR", "UFL", "DFL", "DFR", "DBR", "DBL"};
-
-    }
+    public static ArrayList<String> allF2Lcases = new ArrayList<>();
 
     static {
 
@@ -37,10 +27,45 @@ public class Cube {
         }
     }
 
+    public String[] edges;
+    public String[] corners;
+
+    public Cube() {
+
+        this.edges = new String[] {"UB","UR","UF","UL","FR","FL","BL","BR","DF","DR","DB","DL"};
+        this.corners = new String[] {"UBL", "UBR", "UFR", "UFL", "DFL", "DFR", "DBR", "DBL"};
+
+    }
+
     public Cube(String[] edges, String[] corners) {
 
         this.edges = edges;
         this.corners = corners;
+
+    }
+
+    public static void testAverageCrossMoves() {
+
+        double solutionMoves = 0;
+
+        for(int i = 0; i < 1000; i++) {
+
+            Cube cube = new Cube();
+            StringBuilder sb = new StringBuilder();
+
+            for(int j = 0; j < 25; j++) {
+                int move = (int) Math.floor(Math.random()*18);
+                sb.append(allPossibleMoves.get(move));
+            }
+
+            System.out.println("Scramble: ");
+            cube.performMoves(sb.toString(),false,null);
+            System.out.println(sb);
+            solutionMoves += cube.solveCross();
+
+        }
+
+        System.out.println("Average number of moves: "+solutionMoves/1000);
 
     }
 
@@ -169,21 +194,18 @@ public class Cube {
         System.out.println('\n');
 
     }
+
     private List<String> cancel(List<String> sb) {
-
         while(isNotSimplified(sb) && sb.size() >= 1) {
-
             sb = makeFirstSimplificationPossible(sb);
-
         }
-
         return sb;
-
     }
 
     private boolean isNotSimplified(List<String> sb) {
         for(int i = 0; i < sb.size() - 1; i++) {
-            if(sb.get(i).charAt(0) == sb.get(i + 1).charAt(0)) return true;
+            if(sb.get(i).charAt(0) == sb.get(i + 1).charAt(0))
+                return true;
         }
         return false;
     }
@@ -194,7 +216,6 @@ public class Cube {
 
         for(int i = 0; i < sb.size() - 1; i++) {
             if(sb.get(i).charAt(0) == sb.get(i + 1).charAt(0)) {
-
                 int rotation = 0;
                 if(sb.get(i).length() == 1) {
                     rotation += 1;
@@ -205,6 +226,7 @@ public class Cube {
                 else {
                     rotation -= 1;
                 }
+                
                 if(sb.get(i + 1).length() == 1) {
                     rotation += 1;
                 }
@@ -216,25 +238,12 @@ public class Cube {
                 }
 
                 switch (rotation) {
-                    case 0, 4 -> {
-                        sb.set(i, "");
-                        sb.set(i + 1, "");
-                    }
-                    case 1 -> {
-                        sb.set(i, Character.toString(sb.get(i).charAt(0)));
-                        sb.set(i + 1, "");
-                    }
-                    case -2, 2 -> {
-                        sb.set(i, Character.toString(sb.get(i).charAt(0)).concat("2"));
-                        sb.set(i + 1, "");
-                    }
-                    case 3 -> {
-                        sb.set(i, Character.toString(sb.get(i).charAt(0)).concat("'"));
-                        sb.set(i + 1, "");
-                    }
-                    default -> {
-                    }
+                    case 0, 4  -> sb.set(i, "");
+                    case 1     -> sb.set(i, Character.toString(sb.get(i).charAt(0)));
+                    case -2, 2 -> sb.set(i, Character.toString(sb.get(i).charAt(0)).concat("2"));
+                    case 3     -> sb.set(i, Character.toString(sb.get(i).charAt(0)).concat("'"));
                 }
+                sb.set(i+1, "");
                 filtered = sb.stream().filter(k -> k != "").collect(Collectors.toList());
             break;
             }
@@ -363,31 +372,6 @@ public class Cube {
             default -> throw new IllegalArgumentException(move + " is not a move");
 
         }
-
-    }
-
-    public static void testAverageCrossMoves() {
-
-        double solutionMoves = 0;
-
-        for(int i = 0; i < 1000; i++) {
-
-            Cube cube = new Cube();
-            StringBuilder sb = new StringBuilder();
-
-            for(int j = 0; j < 25; j++) {
-                int move = (int) Math.floor(Math.random()*18);
-                sb.append(allPossibleMoves.get(move));
-            }
-
-            System.out.println("Scramble: ");
-            cube.performMoves(sb.toString(),false,null);
-            System.out.println(sb);
-            solutionMoves += cube.solveCross();
-
-        }
-
-        System.out.println("Average number of moves: "+solutionMoves/1000);
 
     }
 
