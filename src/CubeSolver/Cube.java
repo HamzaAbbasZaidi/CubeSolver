@@ -74,11 +74,12 @@ public class Cube {
         System.out.println("Cross: ");
 
         StringBuilder finalCrossSolution = new StringBuilder();
-        int length = 20;
+        int length = 50;
 
         for(int i = 0; i < 16; i++) {
 
             StringBuilder solutionBuilder = new StringBuilder();
+            StringBuilder movesToDoBuilder = new StringBuilder();
             Cube cubeCopy = new Cube(this.edges.clone(),this.corners.clone());
 
             for(int j = 0; j < 4; j++) {
@@ -375,7 +376,7 @@ public class Cube {
 
     }
 
-    public int solveF2L() {
+    public String[] solveF2L(/*StringBuilder sb*/) {
 
         System.out.println("F2L: ");
 
@@ -385,17 +386,15 @@ public class Cube {
 
         // for(int i = 0; i < 16; i++) {
 
-            StringBuilder f2LBuilder = new StringBuilder();
+            StringBuilder f2lBuilder = new StringBuilder();
             StringBuilder f2lExecution = new StringBuilder();
             Cube cubeCopy = new Cube(this.edges.clone(),this.corners.clone());
 
             // for(int j = 0; j < 4; j++) {
-
                 // switch (vuxwTries.get(i).charAt(j)) {
-
-                     System.out.println(cubeCopy.corners[5]);
-                     System.out.println(cubeCopy.edges[4]);
-                    /*  case 'v' -> */cubeCopy.performF2LMoves(F2LSolutions.pair1v1[allF2Lcases.indexOf(cubeCopy.corners[5] + cubeCopy.edges[4])], F2LSolutions.pair1v1print[allF2Lcases.indexOf(cubeCopy.corners[5] + cubeCopy.edges[4])], f2LBuilder, f2lExecution);
+                     // System.out.println(cubeCopy.corners[5]);
+                     // System.out.println(cubeCopy.edges[4]);
+                    /*  case 'v' -> */cubeCopy.performF2LMoves(F2LSolutions.pair1v1[allF2Lcases.indexOf(cubeCopy.corners[5] + cubeCopy.edges[4])], F2LSolutions.pair1v1print[allF2Lcases.indexOf(cubeCopy.corners[5] + cubeCopy.edges[4])], f2lBuilder, f2lExecution);
                     /* case 'V' -> cubeCopy.performF2LMoves(F2LSolutions.edge1w2[allEdgeStickers.indexOf(cubeCopy.edges[10])], true, solutionBuilder);
                     case 'u' -> cubeCopy.performF2LMoves(F2LSolutions.edge2vw1[allEdgeStickers.indexOf(cubeCopy.edges[9])], true, solutionBuilder);
                     case 'U' -> cubeCopy.performF2LMoves(F2LSolutions.edge2vw2[allEdgeStickers.indexOf(cubeCopy.edges[9])], true, solutionBuilder);
@@ -406,11 +405,11 @@ public class Cube {
 
                 // }
             // }
-        System.out.println(f2lExecution);
+        //System.out.println(f2lExecution);
         // System.out.println(f2LBuilder);
         // }
-
-        return (cancel(Arrays.asList(f2lExecution.toString().split(" ")))).size();
+        // return (cancel(Arrays.asList(f2lExecution.toString().split(" ")))).size();
+        return new String[]{String.valueOf(f2lBuilder),String.valueOf((f2lExecution))};
     }
 }
 
