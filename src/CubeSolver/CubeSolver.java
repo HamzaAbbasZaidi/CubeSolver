@@ -21,7 +21,7 @@ public class CubeSolver {
 
     long start = System.currentTimeMillis();
     numMoves += cube.solveCross();
-    // numMoves += cube.solveF2L();
+    numMoves += cube.solveF2L();
     System.out.println(numMoves + " moves");
     long timeTaken = System.currentTimeMillis() - start;
     System.out.println(timeTaken + "ms");
