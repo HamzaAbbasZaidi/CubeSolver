@@ -26,12 +26,5 @@ public class CubeSolver {
     long timeTaken = System.currentTimeMillis() - start;
     System.out.println(timeTaken + "ms");
 
-    // For a regular cross solver, comment the above and uncomment the below
-
-//     Cube.testAverageCrossMoves();
-
-    System.out.println(F2LSolutions.pair1v1.length);
-    System.out.println(F2LSolutions.pair1v1print.length);
-
   }
 }
